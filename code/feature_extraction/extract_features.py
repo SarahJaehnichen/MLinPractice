@@ -44,7 +44,8 @@ else:    # need to create FeatureCollector manually
         features.append(CharacterLength(COLUMN_TWEET))
         
     if args.keywords:
-        features.append(Keywords(COLUMN_PUNCTUATION))
+        #features.append(Keywords(COLUMN_PUNCTUATION))
+        features.append(Keywords(COLUMN_TWEET))
         
     # create overall FeatureCollector
     feature_collector = FeatureCollector(features)

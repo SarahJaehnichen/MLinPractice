@@ -8,6 +8,7 @@ Created on Fri Oct  8 13:29:38 2021
 
 from rake_nltk import Rake
 from code.feature_extraction.feature_extractor import FeatureExtractor
+import ast
 
 # class for checking tweets for keywords
 class Keywords(FeatureExtractor):
@@ -29,16 +30,27 @@ class Keywords(FeatureExtractor):
         
         '''
 
-        
-    
+        # create string with all tweets combined
         overall_text = ""
         for tweet in inputs[0]:
             overall_text += tweet
-        
+            
+        # initialize keyword extractor
         r = Rake()
+        # get ranked keywords 
         r.extract_keywords_from_sentences(overall_text)
         keywords = r.get_ranked_phrases()
+        # select 20 highest ranking keywords
+        keywords = keywords[:20]
         
         # to do 
         # counter for how many keywords a tweet has
         # output: column with numeric feature 
+        no_keywords = []
+        for tweet in inputs[0]:
+            tweet = ast.literal_eval(tweet)
+            matches = set(keywords).intersection(tweet)
+            no_matches = len(matches)
+            no_keywords.append(int(no_matches))
+    
+        return no_keywords
