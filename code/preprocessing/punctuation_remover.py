@@ -30,8 +30,7 @@ class PunctuationRemover(Preprocessor):
         # replace all characters and symbols that are not alpha-numeric with empty string
         # this eliminated all punctuation, special characters and emojis
         column = [re.sub(r'[^A-Za-z0-9\s]+', '', tweet) for tweet in column]
-        
-        # to do ?
         # exchange numbers with <num> token - actual numbers might be uninteresting and this could make comparing/further preprocessing easier 
+        column = [re.sub(r'[0-9]+$', '<NUM>', tweet) for tweet in column]
         
         return column
