@@ -10,6 +10,7 @@ Created on Sun Oct 10 16:40:33 2021
 
 from code.preprocessing.preprocessor import Preprocessor
 from nltk.stem.snowball import SnowballStemmer
+import ast
 
 class Stemmer(Preprocessor):
     """Lemmatizes the given tokenized input column into base form words."""
@@ -27,10 +28,23 @@ class Stemmer(Preprocessor):
     def _get_values(self, inputs):
         """
         Stem the tweet. 
-        To DO:
-            debug (creates column etc but no actual stemming happens)
+    
         """
+        # initialize the stemmer
         sst = SnowballStemmer("english")
-        stemmed = [sst.stem(tweet) for tweet in inputs[0]]
-        #stemmed = [sst.stem(word) for tweet in inputs[0] for word in tweet]
+        
+        stemmed = []
+        
+        # iterate through all tweets
+        for tweet in inputs[0]:
+            # tweets are strings, to get list of strings we can iterate through we use ast.literal_eval
+            tweet = ast.literal_eval(tweet)
+            stemmed_tweet = []
+            # iterate through words of the tweet
+            for word in tweet:
+                # get stem of word and add to list
+                stemmed_tweet.append(sst.stem(str(word)))
+                
+            stemmed.append(stemmed_tweet)
+        
         return stemmed

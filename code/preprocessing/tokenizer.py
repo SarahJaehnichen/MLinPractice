@@ -9,7 +9,7 @@ Created on Wed Oct  6 13:59:54 2021
 """
 
 from code.preprocessing.preprocessor import Preprocessor
-import nltk
+from nltk.tokenize import TweetTokenizer
 
 class Tokenizer(Preprocessor):
     """Tokenizes the given input column into individual words."""
@@ -23,15 +23,12 @@ class Tokenizer(Preprocessor):
     def _get_values(self, inputs):
         """Tokenize the tweet."""
         
-        tokenized = []
+        tokenizer = TweetTokenizer()
         
-        for tweet in inputs[0]:
-            sentences = nltk.sent_tokenize(tweet)
-            tokenized_tweet = []
-            for sentence in sentences:
-                words = nltk.word_tokenize(sentence)
-                tokenized_tweet += words
-            
-            tokenized.append(str(tokenized_tweet))
+        tokenized = [tokenizer.tokenize(tweet) for tweet in inputs[0]]
+        
+        #for tweet in inputs[0]:
+         #   tokenized_tweet = tokenizer.tokenize(tweet)
+          #  tokenized.append(tokenized_tweet)
         
         return tokenized

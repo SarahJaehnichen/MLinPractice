@@ -10,6 +10,7 @@ Created on Sun Oct 10 14:33:16 2021
 
 from code.preprocessing.preprocessor import Preprocessor
 from nltk.stem.wordnet import WordNetLemmatizer
+import ast
 
 class Lemmatizer(Preprocessor):
     """Lemmatizes the given tokenized input column into base form words."""
@@ -33,7 +34,21 @@ class Lemmatizer(Preprocessor):
             Currently only default 'noun' considered- Add verbs.    
         
         """
-        
+        # initialze lemmatizer
         wnl = WordNetLemmatizer()
-        lemmatized = [wnl.lemmatize(word) for tweet in inputs[0] for word in tweet]
+        
+        lemmatized = []
+        
+        for tweet in inputs[0]:
+            # tweets are strings, to get list of strings we can iterate through we use ast.literal_eval
+            tweet = ast.literal_eval(tweet)
+            lemmatized_tweet = []
+            # iterate through words of the tweet
+            for word in tweet:
+                # get lemma of word and add to list
+                lemmatized_tweet.append(wnl.lemmatize(word))
+                
+            lemmatized.append(lemmatized_tweet)
+        
+        #lemmatized = [wnl.lemmatize(word) for tweet in inputs[0] for word in tweet]
         return lemmatized
