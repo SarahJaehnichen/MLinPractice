@@ -35,7 +35,7 @@ args = parser.parse_args()
 # load data
 df = pd.read_csv(args.input_file, quoting = csv.QUOTE_NONNUMERIC, lineterminator = "\n")
 if args.development:
-    df = df[:100]
+    df = df.sample(n=100)
 
 # collect all preprocessors
 preprocessors = []
