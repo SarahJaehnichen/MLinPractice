@@ -21,6 +21,7 @@ from code.util import COLUMN_TWEET, SUFFIX_TOKENIZED, TWEET_TOKENIZED, SUFFIX_LE
 parser = argparse.ArgumentParser(description = "Various preprocessing steps")
 parser.add_argument("input_file", help = "path to the input csv file")
 parser.add_argument("output_file", help = "path to the output csv file")
+parser.add_argument("-dev", "--development", action= "store_true", help = "preprocess with less data to shorten runtime during development")
 parser.add_argument("-p", "--punctuation", action = "store_true", help = "remove punctuation")
 parser.add_argument("-t", "--tokenize", action = "store_true", help = "tokenize given column into individual words")
 parser.add_argument("--tokenize_input", help = "input column to tokenize", default = COLUMN_TWEET)
@@ -33,6 +34,8 @@ args = parser.parse_args()
 
 # load data
 df = pd.read_csv(args.input_file, quoting = csv.QUOTE_NONNUMERIC, lineterminator = "\n")
+if args.development:
+    df = df[:100]
 
 # collect all preprocessors
 preprocessors = []

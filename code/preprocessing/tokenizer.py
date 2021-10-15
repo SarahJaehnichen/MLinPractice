@@ -25,10 +25,13 @@ class Tokenizer(Preprocessor):
         
         tokenizer = TweetTokenizer()
         
-        tokenized = [tokenizer.tokenize(tweet) for tweet in inputs[0]]
+        #tokenized = [tokenizer.tokenize(tweet) for tweet in inputs[0]]
+        tokenized = list()
         
-        #for tweet in inputs[0]:
-         #   tokenized_tweet = tokenizer.tokenize(tweet)
-          #  tokenized.append(tokenized_tweet)
+        for tweet in inputs[0]:
+            tokenized_tweet = list()
+            tokenized_tweet = tokenizer.tokenize(tweet)
+            tokenized.append(tokenized_tweet)
+    
         
         return tokenized

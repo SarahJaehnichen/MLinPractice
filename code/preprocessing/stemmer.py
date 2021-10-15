@@ -38,7 +38,7 @@ class Stemmer(Preprocessor):
         # iterate through all tweets
         for tweet in inputs[0]:
             # tweets are strings, to get list of strings we can iterate through we use ast.literal_eval
-            tweet = ast.literal_eval(tweet)
+            #tweet = ast.literal_eval(tweet)
             stemmed_tweet = []
             # iterate through words of the tweet
             for word in tweet:
