@@ -16,3 +16,10 @@ Changes:
 Possible addition/to do:
 * replace all numeric characters with \<NUM\> token - with this we keep the information that the tweet contained a number without having to deal with specific numbers 
   
+
+## Feature Extraction 
+
+### Keywords/Content words
+
+We use the rake-nltk package to extract keywords from the tweets. 
+To DO: debug and finish feature extraction (counting of keywords for each tweet) 

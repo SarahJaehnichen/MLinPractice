@@ -12,21 +12,26 @@ import argparse, csv, pickle
 import pandas as pd
 import numpy as np
 from code.feature_extraction.character_length import CharacterLength
+from code.feature_extraction.keywords import Keywords
 from code.feature_extraction.feature_collector import FeatureCollector
-from code.util import COLUMN_TWEET, COLUMN_LABEL
+from code.util import COLUMN_TWEET, COLUMN_LABEL, COLUMN_PUNCTUATION
 
 
 # setting up CLI
 parser = argparse.ArgumentParser(description = "Feature Extraction")
 parser.add_argument("input_file", help = "path to the input csv file")
 parser.add_argument("output_file", help = "path to the output pickle file")
+parser.add_argument("-dev", "--development", action = "store_true", help = "shorten runtime during development by using less data")
 parser.add_argument("-e", "--export_file", help = "create a pipeline and export to the given location", default = None)
 parser.add_argument("-i", "--import_file", help = "import an existing pipeline from the given location", default = None)
 parser.add_argument("-c", "--char_length", action = "store_true", help = "compute the number of characters in the tweet")
+parser.add_argument("-k", "--keywords", action = "store_true", help = "compute the number of keywords in a tweet")
 args = parser.parse_args()
 
 # load data
 df = pd.read_csv(args.input_file, quoting = csv.QUOTE_NONNUMERIC, lineterminator = "\n")
+if args.development:
+    df = df.sample(n=100)
 
 if args.import_file is not None:
     # simply import an exisiting FeatureCollector
@@ -40,7 +45,11 @@ else:    # need to create FeatureCollector manually
     if args.char_length:
         # character length of original tweet (without any changes)
         features.append(CharacterLength(COLUMN_TWEET))
-    
+        
+    if args.keywords:
+        #features.append(Keywords(COLUMN_PUNCTUATION))
+        features.append(Keywords(COLUMN_TWEET))
+        
     # create overall FeatureCollector
     feature_collector = FeatureCollector(features)
     
