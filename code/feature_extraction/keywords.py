@@ -42,15 +42,16 @@ class Keywords(FeatureExtractor):
         keywords = r.get_ranked_phrases()
         # select 20 highest ranking keywords
         keywords = keywords[:20]
+        print(keywords)
         
         # to do 
         # counter for how many keywords a tweet has
         # output: column with numeric feature 
-        no_keywords = []
+        num_keywords = []
         for tweet in inputs[0]:
             tweet = ast.literal_eval(tweet)
             matches = set(keywords).intersection(tweet)
-            no_matches = len(matches)
-            no_keywords.append(int(no_matches))
+            num_matches = len(matches)
+            num_keywords.append(int(num_matches))
     
-        return no_keywords
+        return num_keywords
